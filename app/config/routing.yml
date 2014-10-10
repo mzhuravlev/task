@@ -1,0 +1,4 @@
+leader_it_task:
+    resource: "@LeaderITTaskBundle/Resources/config/routing.yml"
+    prefix:   /
+
