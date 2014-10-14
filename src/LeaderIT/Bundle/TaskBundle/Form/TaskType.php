@@ -17,14 +17,15 @@ class TaskType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('subtask')
+            //->add('subtask')
+            //->add('link')
             ->add('date')
             ->add('type')
             ->add('priority')
             //->add('subtasks')
-            ->add('folder')
-            ->add('done')
-            ->add('transfer')
+            //->add('folder')
+            //->add('done')
+            //->add('transfer')
         ;
     }
     

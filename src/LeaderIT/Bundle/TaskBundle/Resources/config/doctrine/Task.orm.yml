@@ -33,4 +33,7 @@ LeaderIT\Bundle\TaskBundle\Entity\Task:
             type: boolean
         transfer:
             type: integer
+        link:
+            type: string
+            length: 255
     lifecycleCallbacks: {  }

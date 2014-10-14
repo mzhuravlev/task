@@ -1,0 +1,23 @@
+.container {
+    width: 800px;
+    padding-top: 24px;
+}
+
+#day {
+    margin-bottom: 24px;
+}
+
+.task-item-done {
+    text-decoration: line-through;
+    color: darkgreen;
+}
+
+.task-item {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}

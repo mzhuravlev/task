@@ -18,23 +18,26 @@ class TaskController extends Controller
     {
         // получить Task из формы
         $newTask = new Task();
-        //$uid = $newTask->getUid();
         $form = $this->createForm(new TaskType(), $newTask);
         $form->handleRequest($request);
-        //$newTask-setUid($uid);
 
-        if($form->isValid()) {
+        //if($form->isValid()) {
 
 
             if($id != 0) {
                 // изменить
 
-                $task = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')->find($id);
+                $em = $this->getDoctrine()->getManager();
+                $task = $em->getRepository('LeaderITTaskBundle:Task')->find($id);
                 if(!$task) return array('data'=> array('status' => 'failure', 'message' => 'task not found', 'id' => $id));
 
+                if($done = $request->request->get('done')) {
+                    $done == 'yes' ? $task->setDone(true) : $task->setDone(false);
+                }
 
+                $em->flush();
 
-                return array('data'=> array('status' => 'success', 'message' => 'modified task', 'id' => $id));
+                return array('data'=> array('status' => 'success', 'message' => 'modified task', 'task' => $task->serialize()));
             } else {
                 // добавить новый
 
@@ -45,7 +48,7 @@ class TaskController extends Controller
                 return array('data'=> array('status' => 'success', 'message' => 'added new task', 'id' => $newTask->getId()));
             }
 
-        }
+
 
 
         return array('data'=> array('status' => 'failure', 'message' => 'form not valid'));

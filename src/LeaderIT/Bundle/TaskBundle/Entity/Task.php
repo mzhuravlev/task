@@ -69,6 +69,11 @@ class Task
      */
     private $transfer;
 
+    /**
+     * @var string
+     */
+    private $link;
+
 
     /**
      * Get id
@@ -322,6 +327,29 @@ class Task
         return $this;
     }
 
+    /**
+     * Set description
+     *
+     * @param string $link
+     * @return Task
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
 
 
     public function __construct()
@@ -336,6 +364,7 @@ class Task
         $this->description = "Описание задачи";
         $this->name = "Новая задача";
         $this->date = new \DateTime();
+        $this->link = "";
         $this->uid = 'user';
     }
 

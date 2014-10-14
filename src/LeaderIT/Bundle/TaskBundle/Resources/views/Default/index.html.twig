@@ -2,13 +2,22 @@
 
 {% block content %}
     <script type="text/javascript">
-        var dayData = {{ render(controller('LeaderITTaskBundle:Day:get')) }}
+        var dayData =
+        {{ render(controller('LeaderITTaskBundle:Day:get')) }}
     </script>
 
     <div id="day">
-        <ul></ul>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span id="addTask" class="glyphicon glyphicon-plus"></span>
+                <span id="taskForm" hidden="hidden">{{ form(form) }}
+                    <button id="send" type="button" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </button>
+                    </span>
+            </li>
+        </ul>
     </div>
 
-    {{ form(form) }}
-    <input id="send" type="button" value="send" class="btn">
+
 {% endblock %}
