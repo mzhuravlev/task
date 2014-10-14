@@ -19,3 +19,9 @@ task_delete:
     defaults: { _controller: LeaderITTaskBundle:Task:delete }
     requirements:
         _method:  DELETE
+
+task_get:
+    path:     /task/api/day/{day}
+    defaults: { _controller: LeaderITTaskBundle:Day:get, day: 0 }
+    requirements:
+        _method:  GET

@@ -17,6 +17,11 @@ class Task
     /**
      * @var string
      */
+    private $uid;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -305,7 +310,22 @@ class Task
         return $this->transfer;
     }
 
-    public function __construct() {
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+
+        return $this;
+    }
+
+
+
+    public function __construct()
+    {
         $this->subtask = false;
         $this->folder = 0;
         $this->done = false;
@@ -316,5 +336,20 @@ class Task
         $this->description = "Описание задачи";
         $this->name = "Новая задача";
         $this->date = new \DateTime();
+        $this->uid = 'user';
+    }
+
+    public function serialize() {
+        return array(
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'date' => $this->date->format("ddmmyyyy"),
+            'type' => $this->type,
+            'priority' => $this->priority,
+            'done' => $this->done,
+            'transfer' => $this->transfer,
+            'subtasks' => $this->subtasks,
+        );
     }
 }

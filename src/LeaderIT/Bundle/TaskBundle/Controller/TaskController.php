@@ -18,8 +18,10 @@ class TaskController extends Controller
     {
         // получить Task из формы
         $newTask = new Task();
+        //$uid = $newTask->getUid();
         $form = $this->createForm(new TaskType(), $newTask);
         $form->handleRequest($request);
+        //$newTask-setUid($uid);
 
         if($form->isValid()) {
 

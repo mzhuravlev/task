@@ -1,6 +1,8 @@
 
 
 $(function(){
+    var dayDiv = $("#day");
+
     $("form").submit(function(e)
     {
         var postData = $(this).serializeArray();
@@ -27,5 +29,11 @@ $(function(){
 
     $("#send").click(function(){
         $("form").submit();
+    });
+
+
+    dayData.day.forEach(function(current, index, array){
+        var data = current.name+' - '+current.description;
+        dayDiv.append('<li>'+data+'</li>');
     });
 });

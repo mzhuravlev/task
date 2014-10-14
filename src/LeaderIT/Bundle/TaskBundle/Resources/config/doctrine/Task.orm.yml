@@ -8,6 +8,9 @@ LeaderIT\Bundle\TaskBundle\Entity\Task:
             generator:
                 strategy: AUTO
     fields:
+        uid:
+            type: string
+            length: 255
         name:
             type: string
             length: 255
