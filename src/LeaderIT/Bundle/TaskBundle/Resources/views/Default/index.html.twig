@@ -1,1 +1,15 @@
-Hello {{ name }}!
+<html>
+<head>
+    {% stylesheets '@LeaderITTaskBundle/Resources/public/css/*' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+</head>
+<body>
+{{ form(form) }}
+<input id="send" type="button" value="send">
+{% javascripts '@LeaderITTaskBundle/Resources/public/js/*' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+</body>
+
+</html>

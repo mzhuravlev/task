@@ -1,3 +1,21 @@
-leader_it_task_homepage:
-    path:     /hello/{name}
+task_homepage:
+    path:     /task
     defaults: { _controller: LeaderITTaskBundle:Default:index }
+
+task_post:
+    path:     /task/api/task/{id}
+    defaults: { _controller: LeaderITTaskBundle:Task:post, id: 0 }
+    requirements:
+        _method:  POST
+
+task_get:
+    path:     /task/api/task/{id}
+    defaults: { _controller: LeaderITTaskBundle:Task:get }
+    requirements:
+        _method:  GET
+
+task_delete:
+    path:     /task/api/task/{id}
+    defaults: { _controller: LeaderITTaskBundle:Task:delete }
+    requirements:
+        _method:  DELETE

@@ -1,0 +1,33 @@
+LeaderIT\Bundle\TaskBundle\Entity\Task:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        description:
+            type: text
+        subtask:
+            type: boolean
+        date:
+            type: date
+        type:
+            type: integer
+        priority:
+            type: integer
+        subtasks:
+            type: string
+            length: 255
+        folder:
+            type: integer
+        done:
+            type: boolean
+        transfer:
+            type: integer
+    lifecycleCallbacks: {  }
