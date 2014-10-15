@@ -33,7 +33,20 @@ class DayController extends Controller
 
     public function postAction()
     {
-        return array('data'=> array('status' => 'failure', 'message' => 'method not defined'));
+        $em = $this->getDoctrine()->getManager();
+        $tasks = $em->getRepository('LeaderITTaskBundle:Task')->findBy(array('done' => false));
+        $date = new \DateTime();
+
+        if($tasks) {
+            foreach($tasks as $task) {
+                $task->setDate($date);
+            }
+
+            $em->flush();
+            return array('data'=> array('status' => 'success', 'message' => 'tasks pulled'));
+        }
+
+        return array('data'=> array('status' => 'success', 'message' => 'no tasks to pull'));
     }
     public function deleteAction()
     {

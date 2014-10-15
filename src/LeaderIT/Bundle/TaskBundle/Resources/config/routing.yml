@@ -8,20 +8,20 @@ task_post:
     requirements:
         _method:  POST
 
-task_get:
-    path:     /task/api/task/{id}
-    defaults: { _controller: LeaderITTaskBundle:Task:get }
-    requirements:
-        _method:  GET
-
 task_delete:
     path:     /task/api/task/{id}
     defaults: { _controller: LeaderITTaskBundle:Task:delete }
     requirements:
         _method:  DELETE
 
-task_get:
+day_get:
     path:     /task/api/day/{day}
     defaults: { _controller: LeaderITTaskBundle:Day:get, day: 0 }
     requirements:
         _method:  GET
+
+day_post:
+    path:     /task/api/day
+    defaults: { _controller: LeaderITTaskBundle:Day:post}
+    requirements:
+        _method:  POST

@@ -18,7 +18,7 @@ class DayManager {
         }
 
         if(count($this->data) == 0)
-            $this->data = array('message' => 'no tasks for today');
+            $this->data = array();
     }
 
     public function getData() {
