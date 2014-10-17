@@ -2,6 +2,18 @@ task_homepage:
     path:     /task
     defaults: { _controller: LeaderITTaskBundle:Default:index }
 
+task_login:
+    path:     /login
+    defaults: { _controller: LeaderITTaskBundle:Security:index}
+
+task_login_check:
+    path:     /task/check
+    defaults: { _controller: LeaderITTaskBundle:Security:check}
+
+task_logout:
+    path:     /task/logout
+    defaults: { _controller: LeaderITTaskBundle:Security:logout}
+
 task_post:
     path:     /task/api/task/{id}
     defaults: { _controller: LeaderITTaskBundle:Task:post, id: 0 }

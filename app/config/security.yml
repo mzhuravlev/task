@@ -1,12 +1,42 @@
 security:
+    encoders:
+            Symfony\Component\Security\Core\User\User: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     providers:
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+                    MZhuravlev: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
+                    SKatorgin: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
+                    PKurkutov: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
+                    SKrivitsky: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        default:
-            anonymous: ~
+        task:
+            remember_me:
+                key:      "%secret%"
+                lifetime: 3153600 # 365 days in seconds
+                path:     /task
+                domain:   ~ # Defaults to the current domain from $_SERVER
+            pattern:  ^/task
+            security: true
+            form_login:
+                check_path: task_login_check
+                login_path: task_login
+            logout:
+                path: task_logout
+                target: task_homepage
+
+    access_control:
+           - { path: "^/task", role: ROLE_USER }
+           - { path: "^/task", role: ROLE_ADMIN }
