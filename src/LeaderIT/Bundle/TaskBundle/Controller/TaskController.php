@@ -72,7 +72,17 @@ class TaskController extends Controller
 
     public function deleteAction($id)
     {
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
+        $em = $this->getDoctrine()->getManager();
+        $task = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')->findBy(array('id' => $id, 'uid' => $user));
+        $delete = 0;
 
-        return array();
+        if($task) {
+            $em->remove($task[0]);
+            $em->flush();
+            $delete++;
+        }
+
+        return array('data' => array('status' => 'success', 'message' => 'delete '.$delete.' tasks'));
     }
 }

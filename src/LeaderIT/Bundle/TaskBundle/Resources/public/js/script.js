@@ -91,6 +91,10 @@ function loadTasks(dayDiv) {
     });
 }
 
+function getDropdown(id) {
+    return '<button name="'+id+'" type="button" class="btn btn-xs btn-default">X</button>'
+}
+
 function showTasks(dayDiv) {
     $(".task-item").remove();
     if (dayData.day.length > 0) {
@@ -103,12 +107,36 @@ function showTasks(dayDiv) {
 
         dayData.day.forEach(function (current, index, array) {
             var data = current.name + ' - ' + current.description;
-            var el = $('<li class="task-item list-group-item" data-type="'+current.type+'" data-priority="'+current.priority+'" data-done="' + current.done + '" data-id="' + current.id + '"><span>' + data + '</span></li>');
+            var el = $('<li class="task-item list-group-item" data-type="'+current.type+'" data-priority="'+current.priority+'" data-done="' + current.done + '" data-id="' + current.id + '">' +
+            '<span class="list-item-data">' + data + '</span><span class="list-item-buttons">'+getDropdown(current.id)+'</span></li>');
             el.addClass("type"+current.type);
             if (current.done == true) el.addClass("task-item-done");
             dayDiv.before(el);
         });
     }
+
+    $(".list-item-buttons").hide().unbind().click(function(){
+        var id = /\d+/.exec(/name="\d+/.exec(this.innerHTML))[0];
+        $.ajax({
+            url: '/task/api/task/'+id,
+            type: 'DELETE',
+            data: {delete: 'delete'},
+            success: function (data, textStatus, jqXHR) {
+                loadTasks(dayDiv);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            }
+        });
+
+    });
+
+    $(".task-item").mouseover(function(){
+        $(this).find(".list-item-buttons").fadeIn();
+    }).mouseleave(function(){
+        $(this).find(".list-item-buttons").fadeOut();
+    });
+
     $("#task-container").sortable({
        cancel: "#add-task-item",
        distance: 30,

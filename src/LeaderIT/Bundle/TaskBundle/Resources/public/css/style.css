@@ -22,7 +22,7 @@
     cursor: default;
 }
 
-.type1 span:before{
+.type1 .list-item-data:before{
     content: 'o';
     color: red;
     background-color: transparent;
@@ -31,11 +31,15 @@
     margin-right: 8px;
 }
 
-.type2 span:before{
+.type2 .list-item-data:before{
     content: 'o';
     color: dodgerblue;
     background-color: transparent;
     border-radius: 5px;
     font-weight: bold;
     margin-right: 8px;
+}
+
+.list-item-buttons {
+    float: right;
 }
