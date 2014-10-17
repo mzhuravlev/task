@@ -1,3 +1,7 @@
+task_redirect:
+    path:     /
+    defaults: { _controller: LeaderITTaskBundle:Default:redirect }
+
 task_homepage:
     path:     /task
     defaults: { _controller: LeaderITTaskBundle:Default:index }

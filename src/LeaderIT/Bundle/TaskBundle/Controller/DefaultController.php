@@ -15,4 +15,8 @@ class DefaultController extends Controller
         $form = $this->createForm(new TaskType(), $task);
         return $this->render('LeaderITTaskBundle:Default:index.html.twig', array('form' => $form->createView()));
     }
+
+    public function redirectAction() {
+        return $this->redirect($this->generateUrl('task_homepage'));
+    }
 }
