@@ -21,6 +21,8 @@ class TaskController extends Controller
         $form = $this->createForm(new TaskType(), $newTask);
         $form->handleRequest($request);
 
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
+
         //if($form->isValid()) {
 
 
@@ -28,7 +30,7 @@ class TaskController extends Controller
                 // изменить
 
                 $em = $this->getDoctrine()->getManager();
-                $task = $em->getRepository('LeaderITTaskBundle:Task')->find($id);
+                $task = $em->getRepository('LeaderITTaskBundle:Task')->findBy(array('id' => $id, 'uid' => $user));
                 if(!$task) return array('data'=> array('status' => 'failure', 'message' => 'task not found', 'id' => $id));
 
                 if($done = $request->request->get('done')) {
@@ -41,6 +43,7 @@ class TaskController extends Controller
             } else {
                 // добавить новый
 
+                $newTask->setUid($user);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($newTask);
                 $em->flush();
@@ -56,7 +59,9 @@ class TaskController extends Controller
 
     public function getAction($id)
     {
-        $task = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')->find($id);
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
+
+        $task = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')->findBy(array('id' => $id, 'uid' => $user));
 
         if($task) {
             return array('data'=> array('status' => 'success', 'message' => 'get task', 'id' => $id));

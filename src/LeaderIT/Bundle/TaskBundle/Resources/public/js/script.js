@@ -29,7 +29,8 @@ $(function () {
                 data: postData,
                 success: function (data, textStatus, jqXHR) {
                     //data: return data from server
-                    console.log(textStatus);
+                    //console.log(textStatus);
+                    loadTasks(dayDiv);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     //if fails
@@ -45,7 +46,7 @@ $(function () {
         setTimeout(function () {
             addTask.slideDown();
         }, 200);
-        //$("form").submit();
+        $("form").submit();
 
     });
 

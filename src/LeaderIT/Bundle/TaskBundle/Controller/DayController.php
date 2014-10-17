@@ -18,12 +18,13 @@ class DayController extends Controller
     public function getAction($day = 0)
     {
         $dayManager = new DayManager();
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
 
         $day == 0 ? $day = new \DateTime() : $day = \DateTime::createFromFormat("ddmmyyyy", $day);
         if(!$day) return array('data'=> array('status' => 'failure', 'message' => 'invalid date'));
 
         $tasks = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')
-            ->findBy(array('date' => $day, 'uid' => 'user'));
+            ->findBy(array('date' => $day, 'uid' => $user));
 
         $dayManager->loadTasks($tasks);
         $dayManager->processTasks();
@@ -35,15 +36,17 @@ class DayController extends Controller
 
         $tasks = $request->request->get("tasks");
 
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
+
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('LeaderITTaskBundle:Task');
 
         $i = 0;
 
         foreach($tasks as $el) {
-            $task = $repository->find($el['id']);
+            $task = $repository->findBy(array('id' => $el['id'], 'uid' => $user));
             if($task) {
-                $task->setPriority($el['priority']);
+                $task[0]->setPriority($el['priority']);
                 $em->flush();
                 $i++;
             }
@@ -56,8 +59,10 @@ class DayController extends Controller
 
     public function pullAction()
     {
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
+
         $em = $this->getDoctrine()->getManager();
-        $tasks = $em->getRepository('LeaderITTaskBundle:Task')->findBy(array('done' => false));
+        $tasks = $em->getRepository('LeaderITTaskBundle:Task')->findBy(array('done' => false, 'uid' => $user));
         $date = new \DateTime();
 
         if($tasks) {

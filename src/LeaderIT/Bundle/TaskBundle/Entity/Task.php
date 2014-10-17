@@ -358,8 +358,8 @@ class Task
         $this->folder = 0;
         $this->done = false;
         $this->transfer = 0;
-        $this->type = 1;
-        $this->priority = 1;
+        $this->type = 2;
+        $this->priority = 100;
         $this->subtasks = "";
         $this->description = "Описание задачи";
         $this->name = "Новая задача";
