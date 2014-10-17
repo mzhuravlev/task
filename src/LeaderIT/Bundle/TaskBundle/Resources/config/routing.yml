@@ -20,6 +20,12 @@ day_get:
     requirements:
         _method:  GET
 
+day_pull:
+    path:     /task/api/day/pull
+    defaults: { _controller: LeaderITTaskBundle:Day:pull}
+    requirements:
+        _method:  POST
+
 day_post:
     path:     /task/api/day
     defaults: { _controller: LeaderITTaskBundle:Day:post}

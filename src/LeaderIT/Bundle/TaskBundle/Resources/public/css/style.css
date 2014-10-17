@@ -21,3 +21,21 @@
     user-select: none;
     cursor: default;
 }
+
+.type1 span:before{
+    content: 'o';
+    color: red;
+    background-color: transparent;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.type2 span:before{
+    content: 'o';
+    color: dodgerblue;
+    background-color: transparent;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-right: 8px;
+}

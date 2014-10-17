@@ -31,7 +31,30 @@ class DayController extends Controller
         return array('data'=> array('status' => 'success', 'day' => $dayManager->getData()));
     }
 
-    public function postAction()
+    public function postAction(Request $request) {
+
+        $tasks = $request->request->get("tasks");
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('LeaderITTaskBundle:Task');
+
+        $i = 0;
+
+        foreach($tasks as $el) {
+            $task = $repository->find($el['id']);
+            if($task) {
+                $task->setPriority($el['priority']);
+                $em->flush();
+                $i++;
+            }
+        }
+
+        $data = array('message' => 'modified '.$i.' tasks');
+
+        return array('data' => $data);
+    }
+
+    public function pullAction()
     {
         $em = $this->getDoctrine()->getManager();
         $tasks = $em->getRepository('LeaderITTaskBundle:Task')->findBy(array('done' => false));

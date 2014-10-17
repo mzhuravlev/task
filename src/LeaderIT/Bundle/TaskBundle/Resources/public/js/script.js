@@ -7,7 +7,7 @@ $(function () {
 
     $("#pullTasks").click(function () {
         $.ajax({
-            url: '/task/api/day',
+            url: '/task/api/day/pull',
             type: 'POST',
             data: {},
             success: function (data, textStatus, jqXHR) {
@@ -93,11 +93,63 @@ function loadTasks(dayDiv) {
 function showTasks(dayDiv) {
     $(".task-item").remove();
     if (dayData.day.length > 0) {
+
+        dayData.day.sort(function(a, b){
+            if(a.priority > b.priority) { return 1; }
+            if(a.priority < b.priority) { return -1; }
+            return 0;
+        });
+
         dayData.day.forEach(function (current, index, array) {
             var data = current.name + ' - ' + current.description;
-            var el = $('<li class="task-item list-group-item" data-done="' + current.done + '" data-id="' + current.id + '">' + data + '</li>');
+            var el = $('<li class="task-item list-group-item" data-type="'+current.type+'" data-priority="'+current.priority+'" data-done="' + current.done + '" data-id="' + current.id + '"><span>' + data + '</span></li>');
+            el.addClass("type"+current.type);
             if (current.done == true) el.addClass("task-item-done");
             dayDiv.before(el);
         });
     }
+    $("#task-container").sortable({
+       cancel: "#add-task-item",
+       distance: 30,
+        stop: function(event, ui){
+            var tasks = $(".task-item");
+
+            var prioritize = function(i) {
+                return function(index, item){
+                    //$(item).data("priority", i++);
+                    item.dataset.priority = i++;
+                }
+            }
+
+            tasks.each(prioritize(1));
+
+            updateTasks(tasks);
+        }
+    });
+}
+
+function updateTasks(tasks) {
+
+    var data = $.map(tasks, function(obj, index){
+        return {
+            id: obj.dataset.id,
+            priority: obj.dataset.priority,
+            done: obj.dataset.done,
+            name: obj.textContent
+        };
+    });
+
+    $.ajax({
+        url: '/task/api/day',
+        type: 'POST',
+        data: {
+            tasks: data
+        },
+        success: function (data, textStatus, jqXHR) {
+            console.log(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus);
+        }
+    });
 }
