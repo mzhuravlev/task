@@ -34,12 +34,12 @@ class TaskController extends Controller
                 if(!$task) return array('data'=> array('status' => 'failure', 'message' => 'task not found', 'id' => $id));
 
                 if($done = $request->request->get('done')) {
-                    $done == 'yes' ? $task->setDone(true) : $task->setDone(false);
+                    $done == 'yes' ? $task[0]->setDone(true) : $task[0]->setDone(false);
                 }
 
                 $em->flush();
 
-                return array('data'=> array('status' => 'success', 'message' => 'modified task', 'task' => $task->serialize()));
+                return array('data'=> array('status' => 'success', 'message' => 'modified task', 'task' => $task[0]->serialize()));
             } else {
                 // добавить новый
 

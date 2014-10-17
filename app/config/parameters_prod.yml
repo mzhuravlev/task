@@ -1,0 +1,17 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: u381863.mysql.masterhost.ru
+    database_port: 3306
+    database_name: u381863_task
+    database_user: u381863_task
+    database_password: U-Di5ajRatOth
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: ru
+    secret: 'Arb00z2021#!'
+    debug_toolbar: true
+    debug_redirects: false
+    use_assetic_controller: true
