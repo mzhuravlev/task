@@ -59,20 +59,7 @@ $(function () {
     showTasks(dayDiv);
 
 
-    taskItems = $(".task-item");
-    taskItems.dblclick(function () {
-        $(this).toggleClass("task-item-done");
 
-        var done = $(this).hasClass("task-item-done");
-        var taskId = $(this).data("id");
-        var postData = {done: done ? 'yes' : 'no'};
-
-        $.ajax({
-            url: "/task/api/task/" + taskId,
-            type: "POST",
-            data: postData
-        });
-    });
 
 });
 
@@ -112,6 +99,20 @@ function showTasks(dayDiv) {
             el.addClass("type"+current.type);
             if (current.done == true) el.addClass("task-item-done");
             dayDiv.before(el);
+        });
+        taskItems = $(".task-item");
+        taskItems.dblclick(function () {
+            $(this).toggleClass("task-item-done");
+
+            var done = $(this).hasClass("task-item-done");
+            var taskId = $(this).data("id");
+            var postData = {done: done ? 'yes' : 'no'};
+
+            $.ajax({
+                url: "/task/api/task/" + taskId,
+                type: "POST",
+                data: postData
+            });
         });
     }
 

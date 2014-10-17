@@ -9,7 +9,7 @@
 
 .task-item-done {
     text-decoration: line-through;
-    color: darkgreen;
+    color: rgb(184, 184, 184);
 }
 
 .task-item {
