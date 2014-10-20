@@ -86,7 +86,7 @@ $(function () {
 
 function loadTasks(dayDiv) {
     $.ajax({
-        url: '/task/api/day',
+        url: '/task/api/day/'+date,
         type: 'GET',
         data: {},
         success: function (data, textStatus, jqXHR) {

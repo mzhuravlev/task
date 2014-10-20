@@ -3,8 +3,8 @@ task_redirect:
     defaults: { _controller: LeaderITTaskBundle:Default:redirect }
 
 task_homepage:
-    path:     /task
-    defaults: { _controller: LeaderITTaskBundle:Default:index }
+    path:     /task/{date}
+    defaults: { _controller: LeaderITTaskBundle:Default:index, date: ''}
 
 task_login:
     path:     /login

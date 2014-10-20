@@ -20,7 +20,7 @@ class DayController extends Controller
         $dayManager = new DayManager();
         $user = $this->get('security.context')->getToken()->getUser()->getUsername();
 
-        $day == 0 ? $day = new \DateTime() : $day = \DateTime::createFromFormat("ddmmyyyy", $day);
+        $day == 0 ? $day = new \DateTime() : $day = \DateTime::createFromFormat("dmY", $day);
         if(!$day) return array('data'=> array('status' => 'failure', 'message' => 'invalid date'));
 
         $tasks = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')

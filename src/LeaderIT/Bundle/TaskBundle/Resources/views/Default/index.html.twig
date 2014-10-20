@@ -1,8 +1,18 @@
 {% extends "LeaderITTaskBundle:Default:layout.html.twig" %}
 
+{% block date %}
+ {% if date %}
+     на {{ date|date("d.m.Y") }}
+ {% else %}
+     на сегодня
+ {% endif %}
+{% endblock %}
+
 {% block content %}
     <script type="text/javascript">
-        var dayData = {{ render(controller('LeaderITTaskBundle:Day:get')) }};
+        var date = {{ date|date("dmY") }};
+        var dayData = {{ render(controller('LeaderITTaskBundle:Day:get', { 'day': date|date("dmY") })) }};
+
     </script>
 
     <div id="day">

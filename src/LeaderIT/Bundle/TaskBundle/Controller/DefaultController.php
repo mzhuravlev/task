@@ -9,11 +9,13 @@ use Symfony\Component\BrowserKit\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction($date)
     {
+        $date != 0 ? $date = \DateTime::createFromFormat("dmY", $date) : $date = new \DateTime();
+
         $task = new Task();
         $form = $this->createForm(new TaskType(), $task);
-        return $this->render('LeaderITTaskBundle:Default:index.html.twig', array('form' => $form->createView()));
+        return $this->render('LeaderITTaskBundle:Default:index.html.twig', array('form' => $form->createView(), 'date' => $date));
     }
 
     public function redirectAction() {
