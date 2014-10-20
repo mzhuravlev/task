@@ -28,7 +28,7 @@ $(function () {
     });
 
 
-    var dayDiv = $("#day").find("li");
+    var dayDiv = $("#day").find("ul");
     var addTask = $("#addTask");
     var taskForm = $("#taskForm");
     var taskItems;
@@ -156,7 +156,7 @@ function showTasks(dayDiv) {
             '<span class="list-item-data">' + data + '</span><span class="list-item-buttons">' + getDropdown(current.id) + '</span></li>');
             el.addClass("type" + current.type);
             if (current.done == true) el.addClass("task-item-done");
-            dayDiv.before(el);
+            dayDiv.append(el);
         });
         taskItems = $(".task-item");
         taskItems.dblclick(function () {
@@ -291,7 +291,7 @@ function showTasks(dayDiv) {
     } else {
         // нет задач для отображения
         $("#no-tasks").remove();
-        dayDiv.before("<li id='no-tasks' class='list-group-item'>Нажмите <b>+</b> для добавления задач</li>");
+        dayDiv.append("<li id='no-tasks' class='list-group-item'>Нажмите <b>+</b> для добавления задач</li>");
     }
 }
 
