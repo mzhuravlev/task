@@ -135,3 +135,21 @@ input, select, textarea {
     margin-top: 8px;
 }
 
+#datepicker {
+    margin-left: 50%;
+}
+
+#ui-datepicker-div {
+    background-color: #ffffff;
+    border: 1px solid darkgray;
+    cursor: default;
+}
+
+#task-date:hover {
+    text-decoration-style: dotted;
+    text-decoration: underline;
+}
+
+.navbar-brand {
+    cursor: default;
+}

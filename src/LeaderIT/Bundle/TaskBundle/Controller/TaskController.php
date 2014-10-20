@@ -17,6 +17,7 @@ class TaskController extends Controller
 {
     public function postAction($id, Request $request)
     {
+
         // получить Task из формы
         $newTask = new Task();
         $form = $this->createForm(new TaskType(), $newTask);
@@ -48,12 +49,15 @@ class TaskController extends Controller
             } else {
                 // добавить новый
 
+                $date = \DateTime::createFromFormat("dmY", $request->request->get('leaderit_bundle_taskbundle_task')['date']);
+                if($date) $newTask->setDate($date);
+
                 $newTask->setUid($user);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($newTask);
                 $em->flush();
 
-                return array('data'=> array('status' => 'success', 'message' => 'added new task', 'id' => $newTask->getId()));
+                return array('data'=> array('status' => 'success', 'message' => 'added new task', 'date' => $date, 'id' => $newTask->getId()));
             }
 
 

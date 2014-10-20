@@ -1,8 +1,31 @@
-
+var submitTaskForm;
+var timers = [];
 
 $(function () {
 
+    (function($){
+        $.fn.datepicker.dates['ru'] = {
+            days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
+            daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб", "Вск"],
+            daysMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+            months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
+            today: "Сегодня",
+            weekStart: 1
+        };
+    }(jQuery));
 
+    var datepicker = $("#task-date");
+    datepicker.datepicker({
+        format: "dd.mm.yyyy",
+        language: "ru",
+        orientation: "top auto",
+        todayHighlight: true,
+        autoclose: true
+    }).on('changeDate', function(e){
+        var date = '/'+ e.format("ddmmyyyy");
+        location.href = '/task'+date;
+    });
 
 
     var dayDiv = $("#day").find("li");
@@ -14,10 +37,11 @@ $(function () {
         $(".list-item-buttons").fadeOut();
     });
 
-    var submitTaskForm = function(id) {
+    submitTaskForm = function(id) {
 
         return function (e) {
             var postData = $(this).serializeArray();
+            postData.push({name: 'leaderit_bundle_taskbundle_task[date]', value: date});
             $(this)[0].reset();
             var slug = id || 0;
             var formURL = "/task/api/task/"+slug;//$(this).attr("action");
@@ -43,7 +67,7 @@ $(function () {
 
     $("#pullTasks").click(function () {
         $.ajax({
-            url: '/task/api/day/pull',
+            url: '/task/api/day/pull/'+date,
             type: 'POST',
             data: {},
             success: function (data, textStatus, jqXHR) {
@@ -77,6 +101,9 @@ $(function () {
     addTask.click(function () {
         $(this).hide();
         taskForm.slideDown();
+        $('html, body').animate({
+            scrollTop: taskForm.offset().top
+        }, 500);
     });
 
 
@@ -109,6 +136,7 @@ function getDropdown(id) {
 }
 
 function showTasks(dayDiv) {
+    $("#no-tasks").remove();
     $(".task-item").remove();
     if (dayData.day.length > 0) {
 
@@ -182,13 +210,14 @@ function showTasks(dayDiv) {
                 data: {},
                 success: function (data, textStatus, jqXHR) {
                     var taskContainer = $("#task-container");
-                    var editField = '<div class="edit-task-form">' + data +
+                    var editField = '<div class="edit-task-form" hidden="hidden">' + data +
                         '<button class="send-task" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok"></span>' +
                         '<button class="cancel-edit" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove"></span>'
                     '</div>';
 
                     taskContainer.sortable({disabled: true});
                     listItem.append(editField);
+                    $(".edit-task-form").slideDown();
                     var form = listItem.find("form");
                     form.submit(submitTaskForm(id));
                     listItem.find(".send-task").click(function () {
@@ -199,7 +228,9 @@ function showTasks(dayDiv) {
                     });
 
                     listItem.find(".cancel-edit").click(function () {
-                        listItem.find(".edit-task-form").remove();
+                        var editForm = listItem.find(".edit-task-form");
+                        editForm.slideUp();
+                        setTimeout(function(){editForm.remove();},500);
                         taskContainer.sortable({disabled: false});
                     });
                 },
@@ -225,16 +256,19 @@ function showTasks(dayDiv) {
 
          });*/
 
-        $(".task-item").unbind().mouseenter(function () {
+        $(".task-item").mouseenter(function () {
             _this = $(this);
-            setTimeout(function () {
+            timers.push(setTimeout(function () {
+                $(".list-item-buttons").hide();
                 _this.find(".list-item-buttons").fadeIn();
-                console.log("in");
-            }, 1);
+              }, 500));
         }).mouseleave(function () {
-            $(this).find(".list-item-buttons").fadeOut();
-            console.log("out");
-        });
+           _this.find(".list-item-buttons").fadeOut();
+            timers.forEach(function(el){
+                clearTimeout(el);
+            })
+          });
+
 
         $("#task-container").sortable({
             cancel: "#add-task-item",
@@ -256,7 +290,8 @@ function showTasks(dayDiv) {
         });
     } else {
         // нет задач для отображения
-        dayDiv.before("<li class='list-group-item'>Нажмите <b>+</b> для добавления задач</li>");
+        $("#no-tasks").remove();
+        dayDiv.before("<li id='no-tasks' class='list-group-item'>Нажмите <b>+</b> для добавления задач</li>");
     }
 }
 

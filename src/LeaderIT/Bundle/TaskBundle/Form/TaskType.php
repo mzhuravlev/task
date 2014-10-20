@@ -19,7 +19,7 @@ class TaskType extends AbstractType
             ->add('description', 'textarea',  array('label' => false, 'attr' => array('placeholder' => 'Описание')))
             //->add('subtask')
             //->add('link')
-            //->add('date')
+            //->add('date', 'date', array('label' => false))
 
             //->add('type')//, 'integer',  array('label' => 'Тип'))
             ->add('type', 'choice',  array('label' => false, 'choices'   => array(

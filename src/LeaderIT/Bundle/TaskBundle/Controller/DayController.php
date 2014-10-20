@@ -57,17 +57,18 @@ class DayController extends Controller
         return array('data' => $data);
     }
 
-    public function pullAction()
+    public function pullAction($date)
     {
         $user = $this->get('security.context')->getToken()->getUser()->getUsername();
 
         $em = $this->getDoctrine()->getManager();
         $tasks = $em->getRepository('LeaderITTaskBundle:Task')->findBy(array('done' => false, 'uid' => $user));
-        $date = new \DateTime();
+        $date == 0 ? $date = new \DateTime() : $date = \DateTime::createFromFormat("dmY", $date);
 
         if($tasks) {
             foreach($tasks as $task) {
-                $task->setDate($date);
+                if($task->getDate() < $date)
+                    $task->setDate($date);
             }
 
             $em->flush();

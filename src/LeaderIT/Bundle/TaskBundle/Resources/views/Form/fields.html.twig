@@ -1,0 +1,18 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block date_widget %}
+    {% spaceless %}
+        {% if widget == 'single_text' %}1
+            {{ block('field_widget') }}
+        {% else %}
+            <div {{ block('widget_container_attributes') }}>
+                {{ form_errors(form.day) }}
+                {{ form_errors(form.month) }}
+                {{ form_errors(form.year) }}
+                {{ form_widget(form.day) }}
+                {{ form_widget(form.month) }}
+                {{ form_widget(form.year) }}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock date_widget %}
