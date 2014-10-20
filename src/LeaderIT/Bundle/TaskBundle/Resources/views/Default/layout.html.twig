@@ -22,7 +22,7 @@
 <div class="container">
 
     <!-- Static navbar -->
-    <div class="navbar navbar-default" role="navigation">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -65,16 +65,23 @@
         {% endblock %}
     </div>
 
-{% block footer %}
 
-{% endblock %}
-
+</div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins)
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 {% javascripts '@LeaderITTaskBundle/Resources/public/js/*' %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
+
+
+        <div class="footer">
+            <div class="container">
+                {% block footer %}
+                    <p class="text-muted">footer text</p>
+                {% endblock %}
+            </div>
+        </div>
 
 </body>
 </html>
