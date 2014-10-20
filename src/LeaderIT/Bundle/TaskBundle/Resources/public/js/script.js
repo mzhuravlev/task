@@ -10,6 +10,9 @@ $(function () {
     var taskForm = $("#taskForm");
     var taskItems;
 
+    $("#task-container").mouseleave(function(){
+        $(".list-item-buttons").fadeOut();
+    });
 
     var submitTaskForm = function(id) {
 
@@ -109,17 +112,21 @@ function showTasks(dayDiv) {
     $(".task-item").remove();
     if (dayData.day.length > 0) {
 
-        dayData.day.sort(function(a, b){
-            if(a.priority > b.priority) { return 1; }
-            if(a.priority < b.priority) { return -1; }
+        dayData.day.sort(function (a, b) {
+            if (a.priority > b.priority) {
+                return 1;
+            }
+            if (a.priority < b.priority) {
+                return -1;
+            }
             return 0;
         });
 
         dayData.day.forEach(function (current, index, array) {
             var data = current.name + ' - ' + current.description;
-            var el = $('<li id="task_'+current.id+'" class="task-item list-group-item" data-type="'+current.type+'" data-priority="'+current.priority+'" data-done="' + current.done + '" data-id="' + current.id + '">' +
-            '<span class="list-item-data">' + data + '</span><span class="list-item-buttons">'+getDropdown(current.id)+'</span></li>');
-            el.addClass("type"+current.type);
+            var el = $('<li id="task_' + current.id + '" class="task-item list-group-item" data-type="' + current.type + '" data-priority="' + current.priority + '" data-done="' + current.done + '" data-id="' + current.id + '">' +
+            '<span class="list-item-data">' + data + '</span><span class="list-item-buttons">' + getDropdown(current.id) + '</span></li>');
+            el.addClass("type" + current.type);
             if (current.done == true) el.addClass("task-item-done");
             dayDiv.before(el);
         });
@@ -138,113 +145,119 @@ function showTasks(dayDiv) {
             });
         });
 
-        taskItems.each(function(index, el){
+        taskItems.each(function (index, el) {
             _el = $(el);
-            if(_el.hasClass("type1")){
+            if (_el.hasClass("type1")) {
                 _el.prepend("<span class='glyphicon glyphicon-circle-arrow-up task-icon'></span>");
-            }else if(_el.hasClass("type2")){
+            } else if (_el.hasClass("type2")) {
                 _el.prepend("<span class='glyphicon glyphicon-circle-arrow-up task-icon'></span>");
-            }else {
+            } else {
                 _el.prepend("<span class='glyphicon glyphicon-circle-arrow-up task-icon'></span>");
             }
         });
-    }
 
-    var listItemButtons = $(".list-item-buttons");
-    listItemButtons.hide();
-    listItemButtons.find(".delete-task").unbind().click(function(){
-        $.ajax({
-            url: '/task/api/task/'+$(this).attr("name"),
-            type: 'DELETE',
-            data: {delete: 'delete'},
-            success: function (data, textStatus, jqXHR) {
-                loadTasks(dayDiv);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus);
-            }
+
+        var listItemButtons = $(".list-item-buttons");
+        listItemButtons.hide();
+        listItemButtons.find(".delete-task").unbind().click(function () {
+            $.ajax({
+                url: '/task/api/task/' + $(this).attr("name"),
+                type: 'DELETE',
+                data: {delete: 'delete'},
+                success: function (data, textStatus, jqXHR) {
+                    loadTasks(dayDiv);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+            });
         });
-    });
-    listItemButtons.find(".edit-task").unbind().click(function(){
-        var id = $(this).attr("name");
-        var listItem = $("#task_"+id);
+        listItemButtons.find(".edit-task").unbind().click(function () {
+            var id = $(this).attr("name");
+            var listItem = $("#task_" + id);
 
-        $.ajax({
-            url: '/task/api/task/'+id,
-            type: 'GET',
-            data: {},
-            success: function (data, textStatus, jqXHR) {
-                var taskContainer = $("#task-container");
-                var editField = '<div class="edit-task-form">'+data+
-                    '<button class="send-task" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok"></span>'+
-                    '<button class="cancel-edit" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove"></span>'
+            $.ajax({
+                url: '/task/api/task/' + id,
+                type: 'GET',
+                data: {},
+                success: function (data, textStatus, jqXHR) {
+                    var taskContainer = $("#task-container");
+                    var editField = '<div class="edit-task-form">' + data +
+                        '<button class="send-task" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-ok"></span>' +
+                        '<button class="cancel-edit" type="button" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-remove"></span>'
                     '</div>';
 
-                taskContainer.sortable({ disabled: true });
-                listItem.append(editField);
-                var form = listItem.find("form");
-                form.submit(submitTaskForm(id));
-                listItem.find(".send-task").click(function(){
-                    form.submit();
-                    listItem.find(".edit-task-form").remove();
-                    taskContainer.sortable({ disabled: false });
-                    loadTasks(dayDiv);
-                });
+                    taskContainer.sortable({disabled: true});
+                    listItem.append(editField);
+                    var form = listItem.find("form");
+                    form.submit(submitTaskForm(id));
+                    listItem.find(".send-task").click(function () {
+                        form.submit();
+                        listItem.find(".edit-task-form").remove();
+                        taskContainer.sortable({disabled: false});
+                        loadTasks(dayDiv);
+                    });
 
-                listItem.find(".cancel-edit").click(function(){
-                    listItem.find(".edit-task-form").remove();
-                    taskContainer.sortable({ disabled: false });
-                });
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus);
-            }
-        });
-    });
-
-    /*$(".list-item-buttons").hide().unbind().click(function(){
-        var id = /\d+/.exec(/name="\d+/.exec(this.innerHTML))[0];
-        $.ajax({
-            url: '/task/api/task/'+id,
-            type: 'DELETE',
-            data: {delete: 'delete'},
-            success: function (data, textStatus, jqXHR) {
-                loadTasks(dayDiv);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(textStatus);
-            }
-        });
-
-    });*/
-
-    $(".task-item").mouseover(function(){
-        _this = $(this);
-        setTimeout(function() {
-            _this.find(".list-item-buttons").fadeIn();
-        }, 600);
-    }).mouseleave(function(){
-        $(this).find(".list-item-buttons").fadeOut();
-    });
-
-    $("#task-container").sortable({
-       cancel: "#add-task-item",
-       distance: 30,
-        stop: function(event, ui){
-            var tasks = $(".task-item");
-
-            var prioritize = function(i) {
-                return function(index, item){
-                    //$(item).data("priority", i++);
-                    item.dataset.priority = i++;
+                    listItem.find(".cancel-edit").click(function () {
+                        listItem.find(".edit-task-form").remove();
+                        taskContainer.sortable({disabled: false});
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus);
                 }
+            });
+        });
+
+        /*$(".list-item-buttons").hide().unbind().click(function(){
+         var id = /\d+/.exec(/name="\d+/.exec(this.innerHTML))[0];
+         $.ajax({
+         url: '/task/api/task/'+id,
+         type: 'DELETE',
+         data: {delete: 'delete'},
+         success: function (data, textStatus, jqXHR) {
+         loadTasks(dayDiv);
+         },
+         error: function (jqXHR, textStatus, errorThrown) {
+         console.log(textStatus);
+         }
+         });
+
+         });*/
+
+        $(".task-item").unbind().mouseenter(function () {
+            _this = $(this);
+            setTimeout(function () {
+                _this.find(".list-item-buttons").fadeIn();
+                console.log("in");
+            }, 1);
+        }).mouseleave(function () {
+            $(this).find(".list-item-buttons").fadeOut();
+            console.log("out");
+        });
+
+        $("#task-container").sortable({
+            cancel: "#add-task-item",
+            distance: 30,
+            stop: function (event, ui) {
+                var tasks = $(".task-item");
+
+                var prioritize = function (i) {
+                    return function (index, item) {
+                        //$(item).data("priority", i++);
+                        item.dataset.priority = i++;
+                    }
+                }
+
+                tasks.each(prioritize(1));
+
+                updateTasks(tasks);
             }
-
-            tasks.each(prioritize(1));
-
-            updateTasks(tasks);
-        }
-    });
+        });
+    } else {
+        // нет задач для отображения
+        dayDiv.before("<li class='list-group-item'>Нажмите <b>+</b> для добавления задач</li>");
+    }
 }
 
 function updateTasks(tasks) {
