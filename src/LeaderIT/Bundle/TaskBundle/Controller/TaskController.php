@@ -7,6 +7,7 @@ use LeaderIT\Bundle\TaskBundle\Form\TaskType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Template("LeaderITTaskBundle:Default:default.json.twig")
@@ -35,6 +36,10 @@ class TaskController extends Controller
 
                 if($done = $request->request->get('done')) {
                     $done == 'yes' ? $task[0]->setDone(true) : $task[0]->setDone(false);
+                } else {
+                    $task[0]->setName($newTask->getName());
+                    $task[0]->setDescription($newTask->getDescription());
+                    $task[0]->setType($newTask->getType());
                 }
 
                 $em->flush();
@@ -64,7 +69,8 @@ class TaskController extends Controller
         $task = $this->getDoctrine()->getRepository('LeaderITTaskBundle:Task')->findBy(array('id' => $id, 'uid' => $user));
 
         if($task) {
-            return array('data'=> array('status' => 'success', 'message' => 'get task', 'id' => $id));
+            $form = $this->createForm(new TaskType(), $task[0]);
+            return $this->render("LeaderITTaskBundle:Default:form.html.twig", array('form' => $form->createView()));
         }
 
         return array('data'=> array('status' => 'failure'));

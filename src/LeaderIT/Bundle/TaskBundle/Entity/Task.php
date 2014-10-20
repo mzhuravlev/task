@@ -358,11 +358,11 @@ class Task
         $this->folder = 0;
         $this->done = false;
         $this->transfer = 0;
-        $this->type = 2;
+        $this->type = 3;
         $this->priority = 100;
         $this->subtasks = "";
-        $this->description = "Описание задачи";
-        $this->name = "Новая задача";
+        $this->description = "";
+        $this->name = "";
         $this->date = new \DateTime();
         $this->link = "";
         $this->uid = 'user';

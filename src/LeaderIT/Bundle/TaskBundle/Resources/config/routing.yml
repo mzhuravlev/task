@@ -18,6 +18,12 @@ task_logout:
     path:     /task/logout
     defaults: { _controller: LeaderITTaskBundle:Security:logout}
 
+task_get:
+    path:     /task/api/task/{id}
+    defaults: { _controller: LeaderITTaskBundle:Task:get }
+    requirements:
+        _method:  GET
+
 task_post:
     path:     /task/api/task/{id}
     defaults: { _controller: LeaderITTaskBundle:Task:post, id: 0 }

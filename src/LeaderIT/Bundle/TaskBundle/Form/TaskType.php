@@ -15,13 +15,19 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
+            ->add('name', 'text',  array('label' => false, 'attr' => array('placeholder' => 'Название')))
+            ->add('description', 'textarea',  array('label' => false, 'attr' => array('placeholder' => 'Описание')))
             //->add('subtask')
             //->add('link')
-            ->add('date')
-            ->add('type')
-            ->add('priority')
+            //->add('date')
+
+            //->add('type')//, 'integer',  array('label' => 'Тип'))
+            ->add('type', 'choice',  array('label' => false, 'choices'   => array(
+                    '1' => 'Критическая',
+                    '2' => 'Важная',
+                    '3' => 'Обычная'
+                )))
+            //->add('priority')
             //->add('subtasks')
             //->add('folder')
             //->add('done')

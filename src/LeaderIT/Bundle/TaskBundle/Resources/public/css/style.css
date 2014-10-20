@@ -22,6 +22,32 @@
     cursor: default;
 }
 
+.task-icon {
+    margin: 0 8px 0 0;
+    opacity: 0.7;
+}
+
+.type1 > .glyphicon{
+    color: darkred;
+}
+
+.type2 > .glyphicon{
+    color: darkgray;
+}
+
+.type3 > .glyphicon{
+    color: transparent;
+}
+
+/*.task-item .list-item-data:before{
+    display: inline-block;
+    content: "<span class='glyphicon glyphicon-fire'></span>";
+    width: 20px;
+    height: 20px;
+    color: red;
+    margin: 0 8px 0 0;
+}
+
 .type1 .list-item-data:before{
     content: 'o';
     color: red;
@@ -40,6 +66,15 @@
     margin-right: 8px;
 }
 
+.type3 .list-item-data:before{
+    content: 'o';
+    color: dodgerblue;
+    background-color: transparent;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-right: 8px;
+}*/
+
 .list-item-buttons {
     float: right;
 }
@@ -56,3 +91,47 @@
 .jumbotron {
     margin-top: 55px;
 }
+
+.delete-task {
+    margin-left: 16px !important;
+}
+
+.cancel-edit, #cancel {
+    float: right;
+    margin-right: 10%;
+}
+
+#taskForm {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.list-group-item {
+    background-color:rgba(255, 255, 255, 0.5);
+}
+
+.ui-sortable-helper {
+    border: 0px solid white;
+    background-color: rgba(150, 255, 203, 0.51)
+}
+
+#task-container {
+    background-color: white;
+}
+
+.edit-task-form, #taskForm {
+    padding: 10px 0 0 10% ;
+}
+
+.edit-task-form > form, #taskForm > form {
+    margin-bottom: 8px;
+}
+
+input[type="text"], textarea {
+    width: 90%;
+}
+
+input, select, textarea {
+    margin-top: 8px;
+}
+
