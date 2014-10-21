@@ -1,5 +1,6 @@
 var submitTaskForm;
 var timers = [];
+var ajaxFails = 0;
 
 $(function () {
 
@@ -17,6 +18,10 @@ $(function () {
 
     $(document).ajaxStop(function(){
         overlay.hide();
+    });
+
+    $(document).ajaxSuccess(function(event, jqXHR, ajaxOptions, data){
+        if(data.indexOf("Вход в систему") > -1) location.reload();
     });
 
     $(document).ajaxSend(function(){
@@ -68,7 +73,7 @@ $(function () {
             postData.push({name: 'leaderit_bundle_taskbundle_task[date]', value: date});
             $(this)[0].reset();
             var slug = id || 0;
-            var formURL = "/task/api/task/"+slug;//$(this).attr("action");
+            var formURL = "/task/api/task/"+slug;
             $.ajax(
                 {
                     url: formURL,

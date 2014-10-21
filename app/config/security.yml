@@ -24,9 +24,9 @@ security:
 
         task:
             remember_me:
-                key:      "%secret%"
-                lifetime: 3153600 # 365 days in seconds
-                path:     /task
+                key:      "Arb00z2031"
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
                 domain:   ~ # Defaults to the current domain from $_SERVER
             pattern:  ^/task
             security: true
@@ -37,6 +37,6 @@ security:
                 path: task_logout
                 target: task_homepage
 
-    access_control:
-           - { path: "^/task", role: ROLE_USER }
-           - { path: "^/task", role: ROLE_ADMIN }
+    #access_control:
+    #       - { path: "^/task", role: ROLE_USER }
+    #       - { path: "^/task", role: ROLE_ADMIN }
