@@ -69,6 +69,7 @@ class DayController extends Controller
             foreach($tasks as $task) {
                 if($task->getDate() < $date)
                     $task->setDate($date);
+                    $task->setPriority($task->getPriority()+102);
             }
 
             $em->flush();

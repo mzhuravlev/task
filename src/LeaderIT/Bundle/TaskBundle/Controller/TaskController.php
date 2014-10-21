@@ -45,7 +45,6 @@ class TaskController extends Controller
 
         $user = $this->get('security.context')->getToken()->getUser()->getUsername();
 
-        //if($form->isValid()) {
 
         $subtask = $request->request->get('subtask');
         $done = $request->request->get('done');
@@ -91,6 +90,8 @@ class TaskController extends Controller
             $newTask->setUid($user);
             $em = $this->getDoctrine()->getManager();
             $em->persist($newTask);
+            $em->flush();
+            $newTask->setPriority(101+$newTask->getId());
             $em->flush();
 
             return array('data' => array('status' => 'success', 'message' => 'added new task', 'date' => $date, 'id' => $newTask->getId()));
