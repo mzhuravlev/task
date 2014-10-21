@@ -202,9 +202,12 @@ function showTasks(dayDiv) {
         }
 
         dayData.day.forEach(function (current, index, array) {
+            function buttons(current){
+                return '<span class="list-item-buttons">' + getDropdown(current.id) + '</span>';
+            }
             var data = formatTask(current);
             var el = $('<li id="task_' + current.id + '" class="task-item list-group-item" data-type="' + current.type + '" data-priority="' + current.priority + '" data-done="' + current.done + '" data-id="' + current.id + '">' +
-            '<span class="list-item-data">' + data + '</span><span class="list-item-buttons">' + getDropdown(current.id) + '</span></li>');
+            buttons(current)+'<span class="list-item-data">' + data + '</span>'+''+'</li>');
             el.addClass("type" + current.type);
             if (current.done == true) el.addClass("task-item-done");
             dayDiv.append(el);
@@ -333,7 +336,7 @@ function showTasks(dayDiv) {
             timers.push(setTimeout(function () {
                 $(".list-item-buttons").hide();
                 _this.find(".list-item-buttons").fadeIn();
-              }, 500));
+              }, 100));
         }).mouseleave(function () {
            _this.find(".list-item-buttons").fadeOut();
             timers.forEach(function(el){
