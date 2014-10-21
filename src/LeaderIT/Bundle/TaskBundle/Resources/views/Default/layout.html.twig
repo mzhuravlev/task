@@ -19,6 +19,7 @@
     <![endif]-->
 </head>
 <body>
+
 <div class="container">
 
     <!-- Static navbar -->
@@ -40,6 +41,7 @@
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" class="loading"><img src="/images/ajax-loader.gif"></a></li>
                     <li>
                         <a href="#">
                             <span id="add-task-top" class="glyphicon glyphicon-plus"></span>
@@ -49,8 +51,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Меню<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a id="pullTasks" href="#">Вытянуть незавершенные</a></li>
-                            <li hidden="hidden"><a href="#">Another action</a></li>
-                            <li hidden="hidden"><a href="#">Something else here</a></li>
+
                             <li class="divider"></li>
 
                             <li><a href="/task/logout">Выход</a></li>
@@ -63,6 +64,7 @@
     </div>
 
     <!-- Main component for a primary marketing message or call to action -->
+
     <div class="jumbotron">
         {% block content %}
 

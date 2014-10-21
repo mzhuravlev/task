@@ -3,6 +3,16 @@ var timers = [];
 
 $(function () {
 
+    var overlay = $(".loading").hide();
+
+    $(document).ajaxStop(function(){
+        overlay.hide();
+    });
+
+    $(document).ajaxSend(function(){
+        overlay.show();
+    });
+
     $("#add-task-top").click(function(){
         $("#addTask").click();
     });
@@ -170,8 +180,8 @@ function showTasks(dayDiv) {
                 return wrapName(task) + " - " + description;
             } else {
                 if (splitIndex > 0) {
-                    name = name + " - "+ description.substring(0, splitIndex - 1);
-                    description = description.substring(splitIndex + splitIndex.toString().length);
+                    task.name = task.name + " - "+ description.substring(0, splitIndex - 1);
+                    description = description.substring(splitIndex);
                 }
                 description = description.split("--");
                 description = description.map(function (el, index) {
