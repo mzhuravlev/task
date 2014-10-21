@@ -223,7 +223,7 @@ function showTasks(dayDiv) {
                 return '<span class="list-item-buttons">' + getDropdown(current.id) + '</span>';
             }
             var data = formatTask(current);
-            var el = $('<li id="task_' + current.id + '" class="task-item list-group-item" data-type="' + current.type + '" data-priority="' + current.priority + '" data-done="' + current.done + '" data-id="' + current.id + '">' +
+            var el = $('<li id="task_' + current.id + '" class="task-item list-group-item" data-transfer="'+current.transfer+'" data-type="' + current.type + '" data-priority="' + current.priority + '" data-done="' + current.done + '" data-id="' + current.id + '">' +
             buttons(current)+'<span class="list-item-data">' + data + '</span>'+''+'</li>');
             el.addClass("type" + current.type);
             if (current.done == true) el.addClass("task-item-done");
