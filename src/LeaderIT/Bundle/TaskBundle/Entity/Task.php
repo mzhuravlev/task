@@ -359,7 +359,7 @@ class Task
         $this->done = false;
         $this->transfer = 0;
         $this->type = 3;
-        $this->priority = 100;
+        $this->priority = 100+$this->id;
         $this->subtasks = "";
         $this->description = "";
         $this->name = "";

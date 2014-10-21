@@ -131,6 +131,10 @@ input[type="text"], textarea {
     width: 90%;
 }
 
+textarea {
+    height: 120px;
+}
+
 input, select, textarea {
     margin-top: 8px;
 }
@@ -152,4 +156,11 @@ input, select, textarea {
 
 .navbar-brand {
     cursor: default;
+}
+
+.subtasks {
+    list-style: none;
+}
+.top-add {
+    margin-bottom: 22px;
 }

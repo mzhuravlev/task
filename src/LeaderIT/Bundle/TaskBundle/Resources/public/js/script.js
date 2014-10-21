@@ -3,6 +3,10 @@ var timers = [];
 
 $(function () {
 
+    $("#add-task-top").click(function(){
+        $("#addTask").click();
+    });
+
     (function($){
         $.fn.datepicker.dates['ru'] = {
             days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
@@ -150,8 +154,45 @@ function showTasks(dayDiv) {
             return 0;
         });
 
+        function formatTask(task) {
+
+            var name = task.name;
+            var description = task.description;
+            var id = task.id;
+
+            function wrapName(name){
+                return "<span class='task-name' data-id='"+task.id+"'>"+task.name+"</span>";
+            }
+
+            var splitIndex = description.indexOf("--");
+
+            if (splitIndex == -1) {
+                return wrapName(task) + " - " + description;
+            } else {
+                if (splitIndex > 0) {
+                    name = name + " - "+ description.substring(0, splitIndex - 1);
+                    description = description.substring(splitIndex + splitIndex.toString().length);
+                }
+                description = description.split("--");
+                description = description.map(function (el, index) {
+                    if (el == '')return [];
+                    function markDone(el) {
+                        if(el.indexOf("[+]") > -1) return "task-item-done";
+                        return "";
+                    }
+                    function trimDone(el) {
+                        return el.replace("[+]", "");
+                    }
+                    return ["<li class='subtasks-item "+markDone(el)+"' data-id='"+id+":"+index+"'>" + trimDone(el) + "</li>"];
+                });
+                description = "<ul class='subtasks'>" + description.join("") + "</ul>";
+            }
+
+            return wrapName(task) + description;
+        }
+
         dayData.day.forEach(function (current, index, array) {
-            var data = current.name + ' - ' + current.description;
+            var data = formatTask(current);
             var el = $('<li id="task_' + current.id + '" class="task-item list-group-item" data-type="' + current.type + '" data-priority="' + current.priority + '" data-done="' + current.done + '" data-id="' + current.id + '">' +
             '<span class="list-item-data">' + data + '</span><span class="list-item-buttons">' + getDropdown(current.id) + '</span></li>');
             el.addClass("type" + current.type);
@@ -159,18 +200,39 @@ function showTasks(dayDiv) {
             dayDiv.append(el);
         });
         taskItems = $(".task-item");
-        taskItems.dblclick(function () {
-            $(this).toggleClass("task-item-done");
+        taskItems.find(".task-name").dblclick(function () {
+            _this = $(this);
 
-            var done = $(this).hasClass("task-item-done");
-            var taskId = $(this).data("id");
+
+            var done = !$("#task_"+_this.data("id")).hasClass("task-item-done");
+            var taskId = _this.data("id");
             var postData = {done: done ? 'yes' : 'no'};
 
             $.ajax({
                 url: "/task/api/task/" + taskId,
                 type: "POST",
-                data: postData
+                data: postData,
+                success: function() {
+                    $("#task_"+_this.data("id")).toggleClass("task-item-done");
+                }
             });
+        });
+
+        taskItems.find(".subtasks-item").dblclick(function(){
+            var _this = $(this);
+            var taskId = _this.data("id").split(":");
+            var postData = {subtask: taskId[1]};
+
+            $.ajax({
+                url: "/task/api/task/" + taskId[0],
+                type: "POST",
+                data: postData,
+                success: function(){
+                    _this.toggleClass("task-item-done");
+                }
+            });
+
+
         });
 
         taskItems.each(function (index, el) {
