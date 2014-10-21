@@ -74,7 +74,7 @@ class TaskController extends Controller
 
             } else {
                 $task[0]->setName($newTask->getName());
-                $task[0]->setDescription($newTask->getDescription());
+                $task[0]->setDescription($newTask->getDescription() || "");
                 $task[0]->setType($newTask->getType());
             }
 
@@ -88,6 +88,7 @@ class TaskController extends Controller
             if ($date) $newTask->setDate($date);
 
             $newTask->setUid($user);
+            $newTask->setDescription($newTask->getDescription() || "");
             $em = $this->getDoctrine()->getManager();
             $em->persist($newTask);
             $em->flush();

@@ -5,9 +5,14 @@ var ajaxFails = 0;
 $(function () {
 
     var overlay = $(".loading").hide();
+    var error = $(".error").hide();
 
     $(document).keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
+            if($(".edit-task-form").length > 0){
+                $(".send-task").click();
+                return;
+            }
             if($("#taskForm:visible").length > 0) {
                 $("#send").click();
             } else {
@@ -24,7 +29,13 @@ $(function () {
         if(data.indexOf("Вход в систему") > -1) location.reload();
     });
 
+    $(document).ajaxError(function(){
+        overlay.hide();
+        error.show();
+    });
+
     $(document).ajaxSend(function(){
+        error.hide();
         overlay.show();
     });
 
@@ -128,6 +139,7 @@ $(function () {
     });
 
     addTask.click(function () {
+        $(".edit-task-form").remove();
         $(this).hide();
         taskForm.slideDown();
         taskForm.find("input").first().focus();
@@ -193,7 +205,10 @@ function showTasks(dayDiv) {
             var splitIndex = description.indexOf("--");
 
             if (splitIndex == -1) {
-                task.name = task.name+" - "+description;
+                if (task.description == "") {
+                } else {
+                    task.name = task.name + " - " + description;
+                }
                 return wrapName(task);
             } else {
                 if (splitIndex > 0) {
@@ -293,6 +308,8 @@ function showTasks(dayDiv) {
             });
         });
         listItemButtons.find(".edit-task").unbind().click(function () {
+            $(".edit-task-form").remove();
+            $("#cancel").click();
             var id = $(this).attr("name");
             var listItem = $("#task_" + id);
 
@@ -310,6 +327,9 @@ function showTasks(dayDiv) {
                     taskContainer.sortable({disabled: true});
                     listItem.append(editField);
                     $(".edit-task-form").slideDown();
+                    $('html, body').animate({
+                        scrollTop: listItem.offset().top
+                    }, 500);
                     var form = listItem.find("form");
                     form.submit(submitTaskForm(id));
                     listItem.find(".send-task").click(function () {

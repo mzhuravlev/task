@@ -368,6 +368,11 @@ class Task
         $this->uid = 'user';
     }
 
+    public function fixDescription(){
+        if($this->description = null)
+            $this->description = "";
+    }
+
     public function serialize() {
         return array(
             'id' => $this->id,
