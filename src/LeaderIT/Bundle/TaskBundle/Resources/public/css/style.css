@@ -9,7 +9,7 @@
 
 .task-item-done {
     text-decoration: line-through;
-    color: rgb(184, 184, 184);
+    color: rgb(210, 210, 210);
 }
 
 .task-item {
@@ -158,9 +158,6 @@ input, select, textarea {
     cursor: default;
 }
 
-.subtasks {
-    list-style: none;
-}
 .top-add {
     margin-bottom: 22px;
 }
@@ -189,3 +186,16 @@ input, select, textarea {
 .overlay{position:fixed; width:100%; height:100%; left:0; top:0; z-index:9999; background: url("/images/ajax-loader.gif") no-repeat 50% 50%;}
 
 .loading { cursor: default; }
+
+.task-name {
+    font-size: larger;
+}
+
+ul .subtasks {
+    padding-left: 50px;
+    list-style: none;
+}
+
+ul .subtasks li {
+    margin-top: 4px;
+}

@@ -5,6 +5,16 @@ $(function () {
 
     var overlay = $(".loading").hide();
 
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && e.keyCode == 13) {
+            if($("#taskForm:visible").length > 0) {
+                $("#send").click();
+            } else {
+                $("#addTask").click();
+            }
+        }
+    });
+
     $(document).ajaxStop(function(){
         overlay.hide();
     });
@@ -115,6 +125,7 @@ $(function () {
     addTask.click(function () {
         $(this).hide();
         taskForm.slideDown();
+        taskForm.find("input").first().focus();
         $('html, body').animate({
             scrollTop: taskForm.offset().top
         }, 500);
@@ -177,7 +188,8 @@ function showTasks(dayDiv) {
             var splitIndex = description.indexOf("--");
 
             if (splitIndex == -1) {
-                return wrapName(task) + " - " + description;
+                task.name = task.name+" - "+description;
+                return wrapName(task);
             } else {
                 if (splitIndex > 0) {
                     task.name = task.name + " - "+ description.substring(0, splitIndex - 1);
