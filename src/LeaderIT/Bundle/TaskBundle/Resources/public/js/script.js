@@ -259,13 +259,18 @@ function showTasks(dayDiv) {
             var taskId = _this.data("id");
             var postData = {done: done ? 'yes' : 'no'};
 
+
+            var successFunc = function(id){
+                return function() {
+                    $("#task_" + id).toggleClass("task-item-done");
+                }
+            }(_this.data("id"));
+
             $.ajax({
                 url: "/task/api/task/" + taskId,
                 type: "POST",
                 data: postData,
-                success: function() {
-                    $("#task_"+_this.data("id")).toggleClass("task-item-done");
-                }
+                success: successFunc
             });
         });
 
