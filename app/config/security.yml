@@ -24,7 +24,7 @@ security:
 
         task:
             remember_me:
-                key:      "Arb00z2031"
+                key:      "%secret%"
                 lifetime: 31536000 # 365 days in seconds
                 path:     /
                 domain:   ~ # Defaults to the current domain from $_SERVER
