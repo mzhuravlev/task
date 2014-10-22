@@ -199,3 +199,11 @@ ul .subtasks {
 ul .subtasks li {
     margin-top: 4px;
 }
+
+.navbar-brand .glyphicon {
+    color: #777;
+}
+
+.navbar-brand .glyphicon:hover {
+    color: #555;
+}
