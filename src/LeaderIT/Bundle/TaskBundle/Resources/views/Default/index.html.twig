@@ -10,7 +10,7 @@
     <script type="text/javascript">
         var date = {{ date|date("dmY") }};
         var dayData = {{ render(controller('LeaderITTaskBundle:Day:get', { 'day': date|date("dmY") })) }};
-
+        var dateToday = "{{ date|date("d.m.Y") }}";
     </script>
 
     <div id="day">

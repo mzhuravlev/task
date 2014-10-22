@@ -7,6 +7,11 @@ $(function () {
     var overlay = $(".loading").hide();
     var error = $(".error").hide();
 
+    var today = function (s, d, el){
+        var a = ''+d.getDate()+(d.getMonth()+1)+ d.getFullYear();
+        if(s == a) el.addClass("active");
+    }(date, new Date(), $("#today"));
+
     $(document).keydown(function (e) {
         if (e.ctrlKey && e.keyCode == 13) {
             if($(".edit-task-form").length > 0){

@@ -35,8 +35,10 @@
                 <span class="navbar-brand">Задачи {% block date %}{% endblock %}</span>
             </div>
             <div class="navbar-collapse collapse" >
-                <ul class="nav navbar-nav" hidden="hidden">
-                    <li class="active"><input id="datepicker" data-provide="datepicker"></li>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ path('task_homepage', {'date': date|date_modify("-1 day")|date("dmY")}) }}"><span class="glyphicon glyphicon-arrow-left"></span></a></li>
+                    <li id="today"><a href="{{ path('task_homepage') }}">сегодня</a></li>
+                    <li><a href="{{ path('task_homepage', {'date': date|date_modify("+1 day")|date("dmY")}) }}"><span class="glyphicon glyphicon-arrow-right"></span></a></li>
 
 
                 </ul>
