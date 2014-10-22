@@ -16,6 +16,7 @@ LeaderIT\Bundle\TaskBundle\Entity\Task:
             length: 255
         description:
             type: text
+            nullable: TRUE
         subtask:
             type: boolean
         date:

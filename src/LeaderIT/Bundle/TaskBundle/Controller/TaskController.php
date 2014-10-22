@@ -74,7 +74,9 @@ class TaskController extends Controller
 
             } else {
                 $task[0]->setName($newTask->getName());
-                $task[0]->setDescription($newTask->getDescription() || "");
+
+                $newTask->getDescription() == null ? $task[0]->setDescription("") : $task[0]->setDescription($newTask->getDescription());
+
                 $task[0]->setType($newTask->getType());
             }
 
@@ -88,14 +90,19 @@ class TaskController extends Controller
             if ($date) $newTask->setDate($date);
 
             $newTask->setUid($user);
-            $newTask->setDescription($newTask->getDescription() || "");
+            if(!$newTask->getDescription()) $newTask->getDescription("");
             $em = $this->getDoctrine()->getManager();
             $em->persist($newTask);
             $em->flush();
             $newTask->setPriority(101+$newTask->getId());
             $em->flush();
 
-            return array('data' => array('status' => 'success', 'message' => 'added new task', 'date' => $date, 'id' => $newTask->getId()));
+            return array('data' => array(
+                'status' => 'success',
+                'message' => 'added new task',
+                'date' => $date,
+                'id' => $newTask->getId(),
+                'description' => $newTask->getDescription()));
         }
 
 

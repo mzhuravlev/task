@@ -1,6 +1,5 @@
 var submitTaskForm;
 var timers = [];
-var ajaxFails = 0;
 
 $(function () {
 
@@ -207,6 +206,8 @@ function showTasks(dayDiv) {
                 return "<span class='task-name' data-id='"+task.id+"'>"+task.name+"</span>";
             }
 
+            if(task.description == null) return wrapName(task);
+
             var splitIndex = description.indexOf("--");
 
             if (splitIndex == -1) {
@@ -408,7 +409,7 @@ function showTasks(dayDiv) {
     } else {
         // нет задач для отображения
         $("#no-tasks").remove();
-        dayDiv.append("<li id='no-tasks' class='list-group-item'>Нажмите <b>+</b> для добавления задач</li>");
+        dayDiv.append("<li id='no-tasks' class='list-group-item'>Нажмите <b>ctrl+enter</b> для добавления задач</li>");
     }
 }
 
